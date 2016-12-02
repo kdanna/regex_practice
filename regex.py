@@ -19,6 +19,7 @@ to_email_list = []
 from_email_list = []
 subject_list = []
 
+
 #loop through current file list & perform actions
 for email in email_messages:
 		open_file = open(email)
@@ -38,11 +39,13 @@ for email in email_messages:
 		if subjects:
 			subject_list.append(subjects.group(1))
 
-#trying to write results to a csv file 
-with open('results.csv', 'wb') as csvfile:
-	# fieldnames = ['to_email_addresses', 'from_email_addresses', 'subjects']
-	# writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+#write results to a csv file.  The "w" mode means that the existing file is wiped and a new one is created. an 'a' mode means info is appended to the old file
+with open('results.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, delimiter=',')	
-	writer.writerow(to_email_list)
-	writer.writerow(from_email_list)
-	writer.writerow(subject_list)
+	#the zip method aggregates elements from each of the lists into one iterable 
+	zipped = zip(to_email_list, from_email_list, subject_list)
+	print(zipped)
+	for row in zipped:
+		writer.writerow(row)
+
